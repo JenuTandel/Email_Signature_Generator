@@ -1,5 +1,5 @@
 <template>
-  <section class="p-3">
+  <section class="p-4 container-xxl">
     <h1 class="main-heading text-center">Email Signature Generator</h1>
     <signature-generator></signature-generator>
   </section>
