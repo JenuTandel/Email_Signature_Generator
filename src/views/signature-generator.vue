@@ -1,7 +1,11 @@
 <template>
-  <section>
-    <user-form-container></user-form-container>
-    <signature-preview-container></signature-preview-container>
+  <section class="row">
+    <div class="col-6 p-4">
+      <user-form-container></user-form-container>
+    </div>
+    <div class="col-6 p-4">
+      <signature-preview-container></signature-preview-container>
+    </div>
   </section>
 </template>
 <script setup lang="ts">
