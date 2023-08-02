@@ -1,3 +1,30 @@
 .main-heading {
     font-family: 'Sacramento', cursive;
 }
+
+.profile-skeleton-wrapper {
+    height: 50px;
+    width: 50px;
+    overflow: hidden;
+    border-radius: 50%;
+
+    img {
+        height: 100%;
+        width: 100%;
+    }
+}
+
+.name-skeleton {
+    width: 150px;
+    height: 20px;
+}
+
+.designation-skeleton {
+    width: 200px;
+    height: 15px;
+}
+
+.email-contact-skeleton {
+    width: 250px;
+    height: 12px;
+}
