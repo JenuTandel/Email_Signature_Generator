@@ -145,6 +145,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from "vue";
 import emitter from "@/emitter/emitter.mitt";
+import copyToClipboard from "@/hooks/copy-to-clipboard";
 const formData = ref();
 const signaturediv = ref(null);
 const profilecolumnRef = ref();
@@ -212,7 +213,7 @@ onMounted(() => {
     );
 
     // Convert the canvas data to a data URL (base64)
-    const imageLogoDataURL = canvaslogo.toDataURL("image/png");
+    const imageLogoDataURL = canvaslogo.toDataURL();
 
     // Create a new image element with the circular image
     const logo = document.createElement("img");
@@ -265,7 +266,7 @@ watch(profileRef, () => {
       );
 
       // Convert the canvas data to a data URL (base64)
-      const imageDataURL = canvas.toDataURL("image/png");
+      const imageDataURL = canvas.toDataURL();
 
       // Create a new image element with the circular image
       const circularImage = document.createElement("img");
@@ -310,7 +311,7 @@ watch(linkedinLinkRef, () => {
   );
 
   // Get the Base64 data URL of the image from the canvas
-  const base64URL = iconcanvas.toDataURL("image/png");
+  const base64URL = iconcanvas.toDataURL();
   console.log(base64URL);
 
   const linkedinIcon1 = document.createElement("img");
@@ -353,7 +354,7 @@ watch(githubLinkRef, () => {
   );
 
   // Get the Base64 data URL of the image from the canvas
-  const base64URL = iconcanvas.toDataURL("image/png");
+  const base64URL = iconcanvas.toDataURL();
 
   const githubIcon1 = document.createElement("img");
   githubIcon1.classList.add("ms-2");
@@ -373,22 +374,6 @@ const onCopySignature = () => {
   const signatureContainer = signaturediv.value;
   removeTableBorders(signatureContainer);
 
-  if (!signatureContainer) {
-    console.error("container not found.");
-    return;
-  }
-
-  const range = document.createRange();
-  range.selectNodeContents(signatureContainer);
-
-  const selection = window.getSelection();
-  if (!selection) {
-    console.error("Selection not available.");
-    return;
-  }
-  selection.removeAllRanges();
-  selection.addRange(range);
-
-  document.execCommand("copy");
+  copyToClipboard(signatureContainer);
 };
 </script>
