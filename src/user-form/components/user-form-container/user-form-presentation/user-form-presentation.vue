@@ -1,5 +1,5 @@
 <template>
-  <div class="card rounded-4 mx-5">
+  <div class="card rounded-4 mx-0 mx-lg-5">
     <!-- start: card title -->
     <div class="card-title rounded-top-4 mb-0 text-white p-3 bg-primary">
       <h4 class="fw-normal fst-italic">User Form</h4>

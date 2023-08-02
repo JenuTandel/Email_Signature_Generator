@@ -1,9 +1,9 @@
 <template>
   <section class="row">
-    <div class="col-6 p-4">
+    <div class="col-12 col-md-6 p-4">
       <user-form-container></user-form-container>
     </div>
-    <div class="col-6 p-4 d-flex flex-column justify-content-center">
+    <div class="col-12 col-md-6 p-4 d-flex flex-column justify-content-center">
       <signature-preview-container></signature-preview-container>
     </div>
   </section>

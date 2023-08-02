@@ -3,6 +3,12 @@
     <h1 class="main-heading text-center">Email Signature Generator</h1>
     <signature-generator></signature-generator>
   </section>
+  <footer>
+    <div class="copyright bg-secondary text-center">
+      @Designed By:
+      <span class="text-primary fw-semibold fs-5"> Jinal Tandel</span>
+    </div>
+  </footer>
 </template>
 
 <script setup lang="ts">
