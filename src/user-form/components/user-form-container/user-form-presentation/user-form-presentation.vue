@@ -57,25 +57,32 @@
           <div>
             <label class="mb-1" for="profileImage">Profile Photo:</label>
           </div>
-          <img
-            src="~@/assets/images/profile-skeleton.png"
-            alt="Preview"
-            v-if="!previewImageUrl"
-          />
-          <img :src="previewImageUrl" v-else alt="Profile preview" />
-          <input
-            type="file"
-            class="form-control"
-            id="profileImage"
-            name="profileImage"
-            style="display: none"
-            ref="profile"
-            @change="handleImageChange"
-          />
-          <button class="btn btn-outline-dark ms-4" @click="profile.click()">
-            <span class="fst-italic">Change</span>
-          </button>
-          {{ errors }}
+          <div class="d-flex">
+            <div class="image-wrapper" v-if="!previewImageUrl">
+              <img src="~@/assets/images/profile-skeleton.png" alt="Preview" />
+            </div>
+            <div class="image-wrapper" v-else>
+              <img :src="previewImageUrl" alt="Profile preview" />
+            </div>
+            <input
+              type="file"
+              class="form-control"
+              id="profileImage"
+              name="profileImage"
+              style="display: none"
+              ref="profile"
+              @change="handleImageChange"
+            />
+            <div class="d-flex align-items-center">
+              <button
+                type="button"
+                class="btn btn-outline-dark ms-4 py-2"
+                @click="profile.click()"
+              >
+                <span class="fst-italic">Change</span>
+              </button>
+            </div>
+          </div>
           <span class="text-danger">{{ errors.profileImage }}</span>
         </div>
         <div class="mb-3">
