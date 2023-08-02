@@ -177,7 +177,7 @@ const removeTableBorders = (table: any) => {
   table.style.boxShadow = "none";
 };
 onMounted(() => {
-  emitter.on("formdata", (e: any) => {
+  emitter.on("formdata", (e) => {
     formData.value = e;
   });
 
@@ -374,6 +374,7 @@ const onCopySignature = () => {
   const signatureContainer = signaturediv.value;
   removeTableBorders(signatureContainer);
 
+  //call hook copyToClipboard
   copyToClipboard(signatureContainer);
 };
 </script>

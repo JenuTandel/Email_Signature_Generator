@@ -64,23 +64,18 @@
             <div class="image-wrapper" v-else>
               <img :src="previewImageUrl" alt="Profile preview" />
             </div>
-            <input
+            <Field
               type="file"
               class="form-control"
               id="profileImage"
               name="profileImage"
               style="display: none"
-              ref="profile"
               @change="handleImageChange"
             />
             <div class="d-flex align-items-center">
-              <button
-                type="button"
-                class="btn btn-outline-dark ms-4 py-2"
-                @click="profile.click()"
-              >
+              <label for="profileImage" class="btn btn-outline-dark ms-4 py-2">
                 <span class="fst-italic">Change</span>
-              </button>
+              </label>
             </div>
           </div>
           <span class="text-danger">{{ errors.profileImage }}</span>
@@ -110,13 +105,12 @@
 <script setup lang="ts">
 import * as yup from "yup";
 import { onUnmounted, reactive } from "vue";
-import { useForm, Field, configure } from "vee-validate";
+import { useForm, Field } from "vee-validate";
 import { ref } from "vue";
 import emitter from "../../../../emitter/emitter.mitt";
-import { User } from "@/user-form/model/user.model";
+// import { User } from "@/user-form/model/user.model";
 
 const previewImageUrl = ref();
-const profile = ref();
 
 const departments = [
   { label: "FrontEnd", value: "FrontEnd" },
@@ -125,11 +119,6 @@ const departments = [
   { label: "RPA", value: "RPA" },
   { label: "Mobile App", value: "Mobile App" },
 ];
-configure({
-  validateOnBlur: true,
-  validateOnChange: true,
-  validateOnInput: true,
-});
 
 const schema = yup.object({
   name: yup
@@ -151,19 +140,19 @@ const schema = yup.object({
     .string()
     .required()
     .matches(/^[0-9]{10}$/, "Enter correct contact number"),
-  // profileImage: yup
-  //   .mixed()
-  //   .required("Required")
-  //   .test(
-  //     "fileType",
-  //     "Invalid file type",
-  //     (value: any) => value && value.type.startsWith("image/")
-  //   )
-  //   .test(
-  //     "fileSize",
-  //     "File size must be less than 1MB",
-  //     (value: any) => value && value.size <= 1000000
-  //   ),
+  profileImage: yup
+    .mixed()
+    .test("required", "profile is a required field", (value: any) => value)
+    .test(
+      "fileType",
+      "Invalid file type",
+      (value: any) => value && value.type.startsWith("image/")
+    )
+    .test(
+      "fileSize",
+      "File size must be less than 1MB",
+      (value: any) => value && value.size <= 1000000
+    ),
   githubLink: yup
     .string()
     .required()
@@ -187,13 +176,14 @@ formInit.data = {
   githubLink: "",
   linkedinLink: "",
 };
-const { errors, handleSubmit, validate, resetForm } = useForm({
+const { errors, handleSubmit, resetForm } = useForm({
   initialValues: formInit.data,
   validationSchema: schema,
 });
 
-const handleImageChange = (event: any) => {
-  const file = event.target.files[0];
+const handleImageChange = (event: Event) => {
+  const inputElement = event.target as HTMLInputElement;
+  const file = inputElement.files?.[0];
   if (file) {
     // Create a FileReader to read the selected image file
     const reader = new FileReader();
@@ -207,8 +197,8 @@ const handleImageChange = (event: any) => {
     reader.readAsDataURL(file);
   }
 };
-const onGenerate = handleSubmit((values: any) => {
-  validate();
+const onGenerate = handleSubmit((values) => {
+  //emit form data
   emitter.emit("formdata", { ...values, profileImage: previewImageUrl.value });
   resetForm();
   previewImageUrl.value = "";
