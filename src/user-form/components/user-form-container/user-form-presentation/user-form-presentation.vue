@@ -102,9 +102,11 @@
 
 <script setup lang="ts">
 import * as yup from "yup";
-import { reactive } from "vue";
+import { onUnmounted, reactive } from "vue";
 import { useForm, Field, configure } from "vee-validate";
 import { ref } from "vue";
+import emitter from "../../../../emitter/emitter.mitt";
+import { User } from "@/user-form/model/user.model";
 
 const previewImageUrl = ref();
 const profile = ref();
@@ -178,7 +180,7 @@ formInit.data = {
   githubLink: "",
   linkedinLink: "",
 };
-const { errors, handleSubmit, validate } = useForm({
+const { errors, handleSubmit, validate, resetForm } = useForm({
   initialValues: formInit.data,
   validationSchema: schema,
 });
@@ -198,7 +200,14 @@ const handleImageChange = (event: any) => {
     reader.readAsDataURL(file);
   }
 };
-const onGenerate = handleSubmit(() => {
+const onGenerate = handleSubmit((values: any) => {
   validate();
+  emitter.emit("formdata", { ...values, profileImage: previewImageUrl.value });
+  resetForm();
+  previewImageUrl.value = "";
+});
+
+onUnmounted(() => {
+  emitter.off("formdata");
 });
 </script>
