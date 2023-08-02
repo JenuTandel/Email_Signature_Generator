@@ -10,7 +10,9 @@
       <!-- start: user form -->
       <form class="user-form" @submit.prevent="onGenerate">
         <div class="mb-3">
-          <label class="mb-1" for="name">Name:</label>
+          <label class="mb-1" for="name"
+            >Name<span class="text-danger fw-bold">*</span></label
+          >
           <Field
             type="text"
             class="form-control"
@@ -20,17 +22,23 @@
           <span class="text-danger">{{ errors.name }}</span>
         </div>
         <div class="mb-3">
-          <label class="mb-1" for="emailid">Email ID:</label>
+          <label class="mb-1" for="emailid"
+            >Email ID<span class="text-danger fw-bold">*</span></label
+          >
           <Field type="text" class="form-control" name="emailid" />
           <span class="text-danger">{{ errors.emailid }}</span>
         </div>
         <div class="mb-3">
-          <label class="mb-1" for="designation">Designation:</label>
+          <label class="mb-1" for="designation"
+            >Designation<span class="text-danger fw-bold">*</span></label
+          >
           <Field type="text" class="form-control" name="designation" />
           <span class="text-danger">{{ errors.designation }}</span>
         </div>
         <div class="mb-3">
-          <label class="mb-1" for="department">Select Department:</label>
+          <label class="mb-1" for="department"
+            >Select Department<span class="text-danger fw-bold">*</span></label
+          >
           <Field
             as="select"
             id="department"
@@ -49,13 +57,17 @@
           <span class="text-danger">{{ errors.department }}</span>
         </div>
         <div class="mb-3">
-          <label class="mb-1" for="contactNumber">Contact Number:</label>
+          <label class="mb-1" for="contactNumber"
+            >Contact Number<span class="text-danger fw-bold">*</span></label
+          >
           <Field type="text" class="form-control" name="contactNumber" />
           <span class="text-danger">{{ errors.contactNumber }}</span>
         </div>
         <div class="mb-3">
           <div>
-            <label class="mb-1" for="profileImage">Profile Photo:</label>
+            <label class="mb-1" for="profileImage"
+              >Profile Photo<span class="text-danger fw-bold"> *</span></label
+            >
           </div>
           <div class="d-flex">
             <div class="image-wrapper" v-if="!previewImageUrl">
@@ -81,12 +93,16 @@
           <span class="text-danger">{{ errors.profileImage }}</span>
         </div>
         <div class="mb-3">
-          <label class="mb-1" for="name">Github Link:</label>
+          <label class="mb-1" for="name"
+            >Github Link<span class="text-danger fw-bold"> *</span></label
+          >
           <Field type="text" class="form-control" name="githubLink" />
           <span class="text-danger">{{ errors.githubLink }}</span>
         </div>
         <div class="mb-3">
-          <label class="mb-1" for="name">LinkedIn Link:</label>
+          <label class="mb-1" for="name"
+            >LinkedIn Link<span class="text-danger fw-bold"> *</span></label
+          >
           <Field type="text" class="form-control" name="linkedinLink" />
           <span class="text-danger">{{ errors.linkedinLink }}</span>
         </div>
