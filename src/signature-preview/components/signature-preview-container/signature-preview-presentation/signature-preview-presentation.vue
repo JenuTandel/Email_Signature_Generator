@@ -13,7 +13,7 @@
           <tbody>
             <tr>
               <td
-                rowSpan="5"
+                rowSpan="6"
                 ref="logoimagewrapper"
                 style="
                   border-right: 1px solid #d9d9d9;
@@ -25,7 +25,7 @@
               ></td>
               <td
                 style="
-                  font-size: 14pt;
+                  font-size: 13pt;
                   font-weight: 500;
                   border: none;
                   margin-left: 10px;
@@ -77,7 +77,7 @@
                   font-size: 10pt;
                   border: none;
                   margin-left: 10px;
-                  height: 20px;
+                  padding-bottom: 5px;
                 "
               >
                 <p
@@ -88,6 +88,25 @@
                   <span style="color: red">tel.</span>
                   {{ user.contactNumber }}</span
                 >
+              </td>
+            </tr>
+            <tr>
+              <td
+                style="
+                  font-size: 10pt;
+                  border: none;
+                  margin-left: 10px;
+                  height: 20px;
+                "
+              >
+                <a
+                  href="www.1rivet.com"
+                  style="text-decoration: none"
+                  ref="githublink"
+                  class="ms-2"
+                  ><span style="color: red">web. </span>
+                  <span>www.1rivet.com</span>
+                </a>
               </td>
             </tr>
             <tr>
@@ -113,7 +132,7 @@
       <div class="mt-3 text-center">
         <button
           class="btn btn-primary px-4"
-          :disabled="!errors"
+          :disabled="errors"
           @click="onCopySignature()"
         >
           <span class="text-white">Copy Signature</span>
@@ -134,7 +153,6 @@ const linkedinlink = ref();
 const githublink = ref();
 const user = ref();
 const errors = ref(false);
-const githublinkVisibility = ref();
 
 const githubLinkRef = computed(() => {
   return user.value?.githubLink;
@@ -250,12 +268,16 @@ watch(linkedinLinkRef, () => {
   }
 
   // linkedin.appendChild(linkedinIcon1);
-  if (errors.value == true) {
+  if (errors.value == false) {
     linkedinlink.value.appendChild(linkedinIcon1);
   }
 });
 
 watch(githubLinkRef, () => {
+  console.log(user.value.githubLink);
+  console.log(errors.value);
+  console.log(githubLinkRef.value);
+
   const iconcanvas = document.createElement("canvas");
   const canvasWidth = 25;
   const canvasHeight = 25;
@@ -291,7 +313,8 @@ watch(githubLinkRef, () => {
   if (existinggithubIcon) {
     githublink.value.removeChild(existinggithubIcon);
   }
-  if (errors.value == true) {
+
+  if (errors.value == false) {
     githublink.value.appendChild(githubIcon1);
   }
 });

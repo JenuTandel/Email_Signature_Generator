@@ -16,7 +16,6 @@
           <Field
             type="text"
             class="form-control"
-            placeholder="Ex. Jinal Tandel"
             name="firstname"
             v-model="firstname"
           />
@@ -29,7 +28,6 @@
           <Field
             type="text"
             class="form-control"
-            placeholder="Ex. Jinal Tandel"
             name="lastname"
             v-model="lastname"
           />
@@ -43,6 +41,7 @@
             type="text"
             class="form-control"
             name="emailid"
+            placeholder="@1rivet.com"
             v-model="emailid"
           />
           <span class="text-danger">{{ errors.emailid }}</span>
@@ -238,10 +237,10 @@ onMounted(() => {
 
   watch(errors, (newErrors: any) => {
     if (Object.keys(newErrors).length > 0) {
-      emitter.emit("errors", false);
+      emitter.emit("errors", true);
     } else {
       if (meta.value.valid) {
-        emitter.emit("errors", true);
+        emitter.emit("errors", false);
       }
     }
   });
