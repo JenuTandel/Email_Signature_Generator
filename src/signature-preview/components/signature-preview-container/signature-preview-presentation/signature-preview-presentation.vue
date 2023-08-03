@@ -2,7 +2,7 @@
   <div class="card rounded-4 mx-0 mx-lg-5">
     <!-- start: card title -->
     <div class="card-title rounded-top-4 mb-0 text-white p-3 bg-primary">
-      <h4 class="fw-normal fst-italic">Signature Preview</h4>
+      <h5 class="fw-normal">Signature Preview</h5>
     </div>
     <!-- end: card-title -->
     <!-- start: card-body -->
@@ -13,52 +13,7 @@
           <tbody>
             <tr>
               <td
-                rowSpan="2"
-                ref="profilecolumnRef"
-                id="profile"
-                style="
-                  border-right: 1px solid #d9d9d9;
-                  border-left: none;
-                  border-top: none;
-                  border-bottom: none;
-                  margin-right: 5px;
-                "
-              >
-                <div class="profile-skeleton-wrapper mx-2" v-if="!formData">
-                  <img src="../../../../assets/images/profile-skeleton.png" />
-                </div>
-              </td>
-              <td
-                style="
-                  font-size: 14pt;
-                  font-weight: 500;
-                  border: none;
-                  margin-left: 10px;
-                "
-              >
-                <p v-if="!formData" class="name-skeleton bg-secondary ms-2"></p>
-                <span v-else class="ms-2">
-                  {{ formData?.name }}
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td style="font-size: 11pt; border: none; margin-left: 10px">
-                <p
-                  v-if="!formData"
-                  class="designation-skeleton bg-secondary ms-2"
-                ></p>
-                <span class="ms-2" v-else
-                  >{{ formData?.designation }} |
-                  <span style="color: red">{{
-                    formData?.department
-                  }}</span></span
-                >
-              </td>
-            </tr>
-            <tr>
-              <td
-                rowSpan="3"
+                rowSpan="5"
                 ref="logoimagewrapper"
                 style="
                   border-right: 1px solid #d9d9d9;
@@ -70,6 +25,36 @@
               ></td>
               <td
                 style="
+                  font-size: 14pt;
+                  font-weight: 500;
+                  border: none;
+                  margin-left: 10px;
+                  padding: 5px 0px;
+                "
+              >
+                <p
+                  v-if="!user?.firstname"
+                  class="name-skeleton bg-secondary ms-2"
+                ></p>
+                <span v-else class="ms-2">
+                  {{ user.firstname }} {{ user.lastname }}
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td style="font-size: 11pt; border: none; margin-left: 10px">
+                <p
+                  v-if="!user?.designation"
+                  class="designation-skeleton bg-secondary ms-2"
+                ></p>
+                <span class="ms-2" v-else
+                  >{{ user.designation }} | {{ user.department }}
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td
+                style="
                   font-size: 10pt;
                   border: none;
                   margin-left: 10px;
@@ -77,12 +62,12 @@
                 "
               >
                 <p
-                  v-if="!formData"
+                  v-if="!user?.emailid"
                   class="email-contact-skeleton bg-secondary ms-2"
                 ></p>
                 <span class="ms-2" v-else>
                   <span style="color: red">e. </span>
-                  {{ formData?.emailid }}
+                  {{ user.emailid }}
                 </span>
               </td>
             </tr>
@@ -96,35 +81,28 @@
                 "
               >
                 <p
-                  v-if="!formData"
+                  v-if="!user?.contactNumber"
                   class="email-contact-skeleton bg-secondary ms-2"
                 ></p>
-                <span class="ms-2" v-if="formData?.contactNumber">
+                <span class="ms-2" v-if="user?.contactNumber">
                   <span style="color: red">tel.</span>
-                  {{ formData?.contactNumber }}</span
+                  {{ user.contactNumber }}</span
                 >
               </td>
             </tr>
             <tr>
               <td style="border: none; margin-left: 10px">
                 <a
-                  :href="githubLinkRef"
+                  :href="user?.githubLink"
                   style="text-decoration: none"
                   ref="githublink"
-                  ><span
-                    v-if="!githubLinkRef"
-                    class="icon-github text-secondary fs-3 me-2 ms-2"
-                  ></span
-                ></a>
+                >
+                </a>
                 <a
-                  :href="linkedinLinkRef"
+                  :href="user?.linkedinLink"
                   style="text-decoration: none"
                   ref="linkedinlink"
                 >
-                  <span
-                    class="icon-linkedin text-secondary fs-3"
-                    v-if="!linkedinLinkRef"
-                  ></span>
                 </a>
               </td>
             </tr>
@@ -133,8 +111,12 @@
         <!-- end: table (For represent formdata) -->
       </div>
       <div class="mt-3 text-center">
-        <button class="btn btn-primary px-4" @click="onCopySignature()">
-          <span class="text-white fst-italic">Copy Signature</span>
+        <button
+          class="btn btn-primary px-4"
+          :disabled="!errors"
+          @click="onCopySignature()"
+        >
+          <span class="text-white">Copy Signature</span>
         </button>
       </div>
     </div>
@@ -146,25 +128,20 @@
 import { computed, onMounted, ref, watch } from "vue";
 import emitter from "@/emitter/emitter.mitt";
 import copyToClipboard from "@/hooks/copy-to-clipboard";
-const formData = ref();
 const signaturediv = ref(null);
-const profilecolumnRef = ref();
 const logoimagewrapper = ref();
 const linkedinlink = ref();
 const githublink = ref();
+const user = ref();
+const errors = ref(false);
+const githublinkVisibility = ref();
 
-const profileRef = computed(() => {
-  return formData.value?.profileImage;
-});
 const githubLinkRef = computed(() => {
-  return formData.value?.githubLink;
+  return user.value?.githubLink;
 });
 const linkedinLinkRef = computed(() => {
-  return formData.value?.linkedinLink;
+  return user.value?.linkedinLink;
 });
-// const profileRef = ref();
-// const githubLinkRef = ref();
-// const linkedinLinkRef = ref();
 
 const linkedinIcon = new Image();
 linkedinIcon.src = require("../../../../assets/images/linkedin.png");
@@ -176,9 +153,18 @@ const removeTableBorders = (table: any) => {
   table.style.border = "none";
   table.style.boxShadow = "none";
 };
+watch(user, () => {
+  if (user.value.name == "" || user.value.emailid == "") {
+    errors.value = true;
+  }
+});
 onMounted(() => {
-  emitter.on("formdata", (e) => {
-    formData.value = e;
+  emitter.on("getUser", (e: any) => {
+    user.value = { ...e };
+  });
+
+  emitter.on("errors", (e: any) => {
+    errors.value = e;
   });
 
   const imageLogo = new Image();
@@ -187,8 +173,8 @@ onMounted(() => {
   imageLogo.onload = function () {
     // Create a canvas to manipulate the imageLogo
     const canvaslogo = document.createElement("canvas");
-    const canvasWidth = 60;
-    const canvasHeight = 60;
+    const canvasWidth = 70;
+    const canvasHeight = 70;
 
     const scaleX = canvasWidth / imageLogo.width;
     const scaleY = canvasHeight / imageLogo.height;
@@ -217,71 +203,11 @@ onMounted(() => {
 
     // Create a new image element with the circular image
     const logo = document.createElement("img");
+    logo.classList.add("me-1");
     logo.src = imageLogoDataURL;
     // Add the circular image to the page
     logoimagewrapper.value.appendChild(logo);
   };
-});
-
-watch(profileRef, () => {
-  if (formData.value?.profileImage) {
-    const image = new Image();
-    image.height = 50;
-    image.width = 60;
-    image.src = formData.value?.profileImage;
-
-    image.onload = function () {
-      // Create a canvas to manipulate the image
-      const canvas = document.createElement("canvas");
-      const canvasWidth = 60;
-      const canvasHeight = 50;
-
-      const scaleX = canvasWidth / image.width;
-      const scaleY = canvasHeight / image.height;
-      const scale = Math.min(scaleX, scaleY);
-
-      // Calculate the new image dimensions
-      const newWidth = image.width * scale;
-      const newHeight = image.height * scale;
-
-      canvas.width = canvasWidth;
-      canvas.height = canvasHeight;
-
-      // Get the canvas context
-      const ctx = canvas.getContext("2d");
-
-      const radius = Math.min(image.width, image.height) / 2;
-      const centerX = newWidth / 2;
-      const centerY = newHeight / 2;
-      ctx?.beginPath();
-      ctx?.arc(centerX, centerY, radius, 0, 2 * Math.PI);
-      ctx?.closePath();
-      ctx?.clip();
-      ctx?.drawImage(
-        image,
-        centerX - radius,
-        centerY - radius,
-        radius * 2,
-        radius * 2
-      );
-
-      // Convert the canvas data to a data URL (base64)
-      const imageDataURL = canvas.toDataURL();
-
-      // Create a new image element with the circular image
-      const circularImage = document.createElement("img");
-      circularImage.src = imageDataURL;
-      circularImage.classList.add("me-1");
-
-      // Remove any existing circular image
-      const existingCircularImage = profilecolumnRef.value.querySelector("img");
-      if (existingCircularImage) {
-        profilecolumnRef.value.removeChild(existingCircularImage);
-      }
-      // Add the circular image to the page
-      profilecolumnRef.value.appendChild(circularImage);
-    };
-  }
 });
 
 watch(linkedinLinkRef, () => {
@@ -312,7 +238,6 @@ watch(linkedinLinkRef, () => {
 
   // Get the Base64 data URL of the image from the canvas
   const base64URL = iconcanvas.toDataURL();
-  console.log(base64URL);
 
   const linkedinIcon1 = document.createElement("img");
   linkedinIcon1.classList.add("ms-2");
@@ -325,7 +250,9 @@ watch(linkedinLinkRef, () => {
   }
 
   // linkedin.appendChild(linkedinIcon1);
-  linkedinlink.value.appendChild(linkedinIcon1);
+  if (errors.value == true) {
+    linkedinlink.value.appendChild(linkedinIcon1);
+  }
 });
 
 watch(githubLinkRef, () => {
@@ -355,7 +282,6 @@ watch(githubLinkRef, () => {
 
   // Get the Base64 data URL of the image from the canvas
   const base64URL = iconcanvas.toDataURL();
-
   const githubIcon1 = document.createElement("img");
   githubIcon1.classList.add("ms-2");
   githubIcon1.src = base64URL;
@@ -365,8 +291,9 @@ watch(githubLinkRef, () => {
   if (existinggithubIcon) {
     githublink.value.removeChild(existinggithubIcon);
   }
-  // github.appendChild(githubIcon1);
-  githublink.value.appendChild(githubIcon1);
+  if (errors.value == true) {
+    githublink.value.appendChild(githubIcon1);
+  }
 });
 
 //Copy signature button

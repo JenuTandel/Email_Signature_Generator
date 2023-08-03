@@ -2,37 +2,61 @@
   <div class="card rounded-4 mx-0 mx-lg-5">
     <!-- start: card title -->
     <div class="card-title rounded-top-4 mb-0 text-white p-3 bg-primary">
-      <h4 class="fw-normal fst-italic">User Form</h4>
+      <h5 class="fw-normal">Create your signature</h5>
     </div>
     <!-- end: card-title -->
     <!-- start: card-body -->
     <div class="card-body">
       <!-- start: user form -->
-      <form class="user-form" @submit.prevent="onGenerate">
+      <form class="user-form">
         <div class="mb-3">
-          <label class="mb-1" for="name"
-            >Name<span class="text-danger fw-bold">*</span></label
+          <label class="mb-1" for="firstname"
+            >Firstname<span class="text-danger fw-bold">*</span></label
           >
           <Field
             type="text"
             class="form-control"
             placeholder="Ex. Jinal Tandel"
-            name="name"
+            name="firstname"
+            v-model="firstname"
           />
-          <span class="text-danger">{{ errors.name }}</span>
+          <span class="text-danger">{{ errors.firstname }}</span>
+        </div>
+        <div class="mb-3">
+          <label class="mb-1" for="lastname"
+            >Lastname<span class="text-danger fw-bold">*</span></label
+          >
+          <Field
+            type="text"
+            class="form-control"
+            placeholder="Ex. Jinal Tandel"
+            name="lastname"
+            v-model="lastname"
+          />
+          <span class="text-danger">{{ errors.lastname }}</span>
         </div>
         <div class="mb-3">
           <label class="mb-1" for="emailid"
             >Email ID<span class="text-danger fw-bold">*</span></label
           >
-          <Field type="text" class="form-control" name="emailid" />
+          <Field
+            type="text"
+            class="form-control"
+            name="emailid"
+            v-model="emailid"
+          />
           <span class="text-danger">{{ errors.emailid }}</span>
         </div>
         <div class="mb-3">
           <label class="mb-1" for="designation"
             >Designation<span class="text-danger fw-bold">*</span></label
           >
-          <Field type="text" class="form-control" name="designation" />
+          <Field
+            type="text"
+            class="form-control"
+            name="designation"
+            v-model="designation"
+          />
           <span class="text-danger">{{ errors.designation }}</span>
         </div>
         <div class="mb-3">
@@ -44,6 +68,7 @@
             id="department"
             class="form-select"
             name="department"
+            v-model="department"
           >
             <option value="" disabled selected>Select</option>
             <option
@@ -60,56 +85,33 @@
           <label class="mb-1" for="contactNumber"
             >Contact Number<span class="text-danger fw-bold">*</span></label
           >
-          <Field type="text" class="form-control" name="contactNumber" />
+          <Field
+            type="text"
+            class="form-control"
+            name="contactNumber"
+            v-model="contactNumber"
+          />
           <span class="text-danger">{{ errors.contactNumber }}</span>
         </div>
         <div class="mb-3">
-          <div>
-            <label class="mb-1" for="profileImage"
-              >Profile Photo<span class="text-danger fw-bold"> *</span></label
-            >
-          </div>
-          <div class="d-flex">
-            <div class="image-wrapper" v-if="!previewImageUrl">
-              <img src="~@/assets/images/profile-skeleton.png" alt="Preview" />
-            </div>
-            <div class="image-wrapper" v-else>
-              <img :src="previewImageUrl" alt="Profile preview" />
-            </div>
-            <Field
-              type="file"
-              class="form-control"
-              id="profileImage"
-              name="profileImage"
-              style="display: none"
-              @change="handleImageChange"
-            />
-            <div class="d-flex align-items-center">
-              <label for="profileImage" class="btn btn-outline-dark ms-4 py-2">
-                <span class="fst-italic">Change</span>
-              </label>
-            </div>
-          </div>
-          <span class="text-danger">{{ errors.profileImage }}</span>
-        </div>
-        <div class="mb-3">
-          <label class="mb-1" for="name"
-            >Github Link<span class="text-danger fw-bold"> *</span></label
-          >
-          <Field type="text" class="form-control" name="githubLink" />
+          <label class="mb-1" for="name">Github Link</label>
+          <Field
+            type="text"
+            class="form-control"
+            name="githubLink"
+            v-model="githubLink"
+          />
           <span class="text-danger">{{ errors.githubLink }}</span>
         </div>
         <div class="mb-3">
-          <label class="mb-1" for="name"
-            >LinkedIn Link<span class="text-danger fw-bold"> *</span></label
-          >
-          <Field type="text" class="form-control" name="linkedinLink" />
+          <label class="mb-1" for="name">LinkedIn Link</label>
+          <Field
+            type="text"
+            class="form-control"
+            name="linkedinLink"
+            v-model="linkedinLink"
+          />
           <span class="text-danger">{{ errors.linkedinLink }}</span>
-        </div>
-        <div class="text-center">
-          <button class="btn btn-primary px-4">
-            <span class="text-white fw-light fst-italic">Generate</span>
-          </button>
         </div>
       </form>
       <!-- end: user form -->
@@ -120,14 +122,17 @@
 
 <script setup lang="ts">
 import * as yup from "yup";
-import { onUnmounted, reactive } from "vue";
-import { useForm, Field } from "vee-validate";
+import { onMounted, reactive, watch } from "vue";
+import { useForm, Field, configure } from "vee-validate";
 import { ref } from "vue";
 import emitter from "../../../../emitter/emitter.mitt";
 // import { User } from "@/user-form/model/user.model";
 
-const previewImageUrl = ref();
-
+configure({
+  validateOnBlur: true,
+  validateOnChange: true,
+  validateOnInput: true,
+});
 const departments = [
   { label: "FrontEnd", value: "FrontEnd" },
   { label: "BackEnd", value: "BackEnd" },
@@ -137,10 +142,14 @@ const departments = [
 ];
 
 const schema = yup.object({
-  name: yup
+  firstname: yup
     .string()
     .required()
-    .matches(/^[a-zA-Z]+ +[a-zA-Z]+$/, "It contains alphabets and space only"),
+    .matches(/^[a-zA-Z]+$/, "It contains alphabets only"),
+  lastname: yup
+    .string()
+    .required()
+    .matches(/^[a-zA-Z]+$/, "It contains alphabets only"),
   emailid: yup
     .string()
     .required()
@@ -148,7 +157,10 @@ const schema = yup.object({
   designation: yup
     .string()
     .required()
-    .matches(/^[a-zA-Z0-9 ]+$/, "It contains alphanumeric value"),
+    .matches(
+      /^[a-zA-Z0-9 .]+$/,
+      "It contains alphanumeric value, space and . character"
+    ),
   department: yup
     .string()
     .required("Please select your department from the dropdown"),
@@ -156,71 +168,82 @@ const schema = yup.object({
     .string()
     .required()
     .matches(/^[0-9]{10}$/, "Enter correct contact number"),
-  profileImage: yup
-    .mixed()
-    .test("required", "profile is a required field", (value: any) => value)
-    .test(
-      "fileType",
-      "Invalid file type",
-      (value: any) => value && value.type.startsWith("image/")
-    )
-    .test(
-      "fileSize",
-      "File size must be less than 1MB",
-      (value: any) => value && value.size <= 1000000
-    ),
   githubLink: yup
     .string()
-    .required()
-    .matches(/https:\/\/github\.com\/([^/]+)/, "Enter your valid github link"),
+    .nullable()
+    .test({
+      test: function (value) {
+        if (!value) {
+          return true;
+        }
+        return value.match(/https:\/\/github\.com\/([^/]+)/) !== null;
+      },
+      message: "Enter a valid GitHub link",
+    }),
   linkedinLink: yup
     .string()
-    .required()
-    .matches(
-      /https:\/\/www\.linkedin\.com\/in\/[a-zA-Z0-9-]+/,
-      "Enter your valid linkedIn link"
-    ),
+    .nullable()
+    .test({
+      test: function (value) {
+        if (!value) {
+          return true;
+        }
+        return (
+          value.match(/https:\/\/www\.linkedin\.com\/in\/[a-zA-Z0-9-]+/) !==
+          null
+        );
+      },
+      message: "Enter your valid linkedIn link",
+    }),
+});
+const firstname = ref();
+const lastname = ref();
+const emailid = ref();
+const designation = ref();
+const department = ref();
+const contactNumber = ref();
+const githubLink = ref();
+const linkedinLink = ref();
+
+const user = reactive({
+  firstname,
+  lastname,
+  emailid,
+  designation,
+  department,
+  contactNumber,
+  githubLink,
+  linkedinLink,
 });
 const formInit = reactive({ data: {} });
 formInit.data = {
-  name: "",
+  firstname: "",
+  lastname: "",
   emailid: "",
   designation: "",
   department: "",
   contactNumber: "",
-  profileImage: "",
   githubLink: "",
   linkedinLink: "",
 };
-const { errors, handleSubmit, resetForm } = useForm({
+const { errors, meta } = useForm({
   initialValues: formInit.data,
   validationSchema: schema,
 });
 
-const handleImageChange = (event: Event) => {
-  const inputElement = event.target as HTMLInputElement;
-  const file = inputElement.files?.[0];
-  if (file) {
-    // Create a FileReader to read the selected image file
-    const reader = new FileReader();
+onMounted(() => {
+  watch(user, () => {
+    emitter.emit("getUser", user);
+  });
 
-    // Set up the reader to display the image as a preview
-    reader.onload = () => {
-      previewImageUrl.value = reader.result;
-    };
-
-    // Read the selected image file as a data URL
-    reader.readAsDataURL(file);
-  }
-};
-const onGenerate = handleSubmit((values) => {
-  //emit form data
-  emitter.emit("formdata", { ...values, profileImage: previewImageUrl.value });
-  resetForm();
-  previewImageUrl.value = "";
-});
-
-onUnmounted(() => {
-  emitter.off("formdata");
+  watch(errors, (newErrors: any) => {
+    if (Object.keys(newErrors).length > 0) {
+      emitter.emit("errors", false);
+    } else {
+      if (meta.value.valid) {
+        emitter.emit("errors", true);
+      }
+    }
+  });
 });
 </script>
