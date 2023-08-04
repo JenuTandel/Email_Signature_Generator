@@ -73,12 +73,8 @@
             </tr>
             <tr>
               <td
-                style="
-                  font-size: 10pt;
-                  border: none;
-                  margin-left: 10px;
-                  padding-bottom: 5px;
-                "
+                style="font-size: 10pt; border: none; margin-left: 10px"
+                class="pb-1"
               >
                 <p
                   v-if="!user?.contactNumber"
@@ -97,14 +93,15 @@
                   border: none;
                   margin-left: 10px;
                   height: 20px;
+                  text-decoration: none;
                 "
               >
+                <span style="color: red" class="ms-2">web. </span>
                 <a
-                  href="www.1rivet.com"
+                  href="https://www.1rivet.com"
                   style="text-decoration: none"
                   ref="githublink"
-                  class="ms-2"
-                  ><span style="color: red">web. </span>
+                >
                   <span>www.1rivet.com</span>
                 </a>
               </td>
@@ -144,7 +141,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 import emitter from "@/emitter/emitter.mitt";
 import copyToClipboard from "@/hooks/copy-to-clipboard";
 const signaturediv = ref(null);
@@ -152,14 +149,9 @@ const logoimagewrapper = ref();
 const linkedinlink = ref();
 const githublink = ref();
 const user = ref();
-const errors = ref(false);
-
-const githubLinkRef = computed(() => {
-  return user.value?.githubLink;
-});
-const linkedinLinkRef = computed(() => {
-  return user.value?.linkedinLink;
-});
+const errors = ref(true);
+const githubIconVisibility = ref();
+const linkedinIconVisibility = ref();
 
 const linkedinIcon = new Image();
 linkedinIcon.src = require("../../../../assets/images/linkedin.png");
@@ -171,11 +163,7 @@ const removeTableBorders = (table: any) => {
   table.style.border = "none";
   table.style.boxShadow = "none";
 };
-watch(user, () => {
-  if (user.value.name == "" || user.value.emailid == "") {
-    errors.value = true;
-  }
-});
+
 onMounted(() => {
   emitter.on("getUser", (e: any) => {
     user.value = { ...e };
@@ -183,6 +171,12 @@ onMounted(() => {
 
   emitter.on("errors", (e: any) => {
     errors.value = e;
+  });
+  emitter.on("github", (e: any) => {
+    githubIconVisibility.value = e;
+  });
+  emitter.on("linkedin", (e: any) => {
+    linkedinIconVisibility.value = e;
   });
 
   const imageLogo = new Image();
@@ -228,7 +222,7 @@ onMounted(() => {
   };
 });
 
-watch(linkedinLinkRef, () => {
+watch(linkedinIconVisibility, () => {
   // Create a canvas to manipulate the image
   const iconcanvas = document.createElement("canvas");
   const canvasWidth = 25;
@@ -268,16 +262,13 @@ watch(linkedinLinkRef, () => {
   }
 
   // linkedin.appendChild(linkedinIcon1);
-  if (errors.value == false) {
+  if (linkedinIconVisibility.value == true) {
     linkedinlink.value.appendChild(linkedinIcon1);
   }
 });
 
-watch(githubLinkRef, () => {
-  console.log(user.value.githubLink);
-  console.log(errors.value);
-  console.log(githubLinkRef.value);
-
+watch(githubIconVisibility, (value) => {
+  // debugger;
   const iconcanvas = document.createElement("canvas");
   const canvasWidth = 25;
   const canvasHeight = 25;
@@ -314,7 +305,8 @@ watch(githubLinkRef, () => {
     githublink.value.removeChild(existinggithubIcon);
   }
 
-  if (errors.value == false) {
+  // debugger;
+  if (githubIconVisibility.value == true) {
     githublink.value.appendChild(githubIcon1);
   }
 });

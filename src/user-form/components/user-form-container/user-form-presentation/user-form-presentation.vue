@@ -122,7 +122,7 @@
 <script setup lang="ts">
 import * as yup from "yup";
 import { onMounted, reactive, watch } from "vue";
-import { useForm, Field, configure } from "vee-validate";
+import { useForm, Field, configure, useField } from "vee-validate";
 import { ref } from "vue";
 import emitter from "../../../../emitter/emitter.mitt";
 // import { User } from "@/user-form/model/user.model";
@@ -230,19 +230,33 @@ const { errors, meta } = useForm({
   validationSchema: schema,
 });
 
+const gitField = useField("githubLink");
+const linkedinField = useField("linkedinLink");
+watch(gitField.meta, (value) => {
+  if (value.valid && (!value.touched || value.dirty)) {
+    emitter.emit("github", true);
+  } else {
+    emitter.emit("github", false);
+  }
+});
+watch(linkedinField.meta, (value) => {
+  if (value.valid && (!value.touched || value.dirty)) {
+    emitter.emit("linkedin", true);
+  } else {
+    emitter.emit("linkedin", false);
+  }
+});
+
+watch(errors, () => {
+  if (meta.value.valid == true) {
+    emitter.emit("errors", false);
+  } else {
+    emitter.emit("errors", true);
+  }
+});
 onMounted(() => {
   watch(user, () => {
     emitter.emit("getUser", user);
-  });
-
-  watch(errors, (newErrors: any) => {
-    if (Object.keys(newErrors).length > 0) {
-      emitter.emit("errors", true);
-    } else {
-      if (meta.value.valid) {
-        emitter.emit("errors", false);
-      }
-    }
   });
 });
 </script>
