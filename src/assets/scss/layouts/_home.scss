@@ -10,62 +10,21 @@
     }
 }
 
-.profile-skeleton-wrapper {
-    height: 50px;
-    width: 50px;
-    overflow: hidden;
-    border-radius: 50%;
-
-    img {
-        height: 100%;
-        width: 100%;
-    }
-}
-
 .name-skeleton {
-    width: 150px;
-    height: 20px;
-
-    @include media-breakpoint-down(sm) {
-        width: 100px;
-    }
-
-    @media (min-width: 768px) and (max-width: 820px) {
-        width: 120px;
-    }
-
+    width: 80%;
+    height: 10pt;
 }
 
-.designation-skeleton {
-    width: 200px;
-    height: 15px;
-
-    @include media-breakpoint-down(sm) {
-        width: 150px;
-    }
-
-    @media (min-width: 768px) and (max-width: 820px) {
-        width: 170px;
-    }
-
-    @media (min-width: 320px) and (max-width: 375px) {
-        width: 120px;
-    }
-}
-
-.email-contact-skeleton {
-    width: 250px;
+.email-skeleton {
+    width: 70%;
     height: 12px;
+}
 
-    @include media-breakpoint-down(sm) {
-        width: 200px;
-    }
+.contact-skeleton {
+    width: 60%;
+    height: 12px;
+}
 
-    @media (min-width: 768px) and (max-width: 820px) {
-        width: 220px;
-    }
-
-    @media (min-width: 320px) and (max-width: 375px) {
-        width: 150px;
-    }
+.ab {
+    width: 100px;
 }

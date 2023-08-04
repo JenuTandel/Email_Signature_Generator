@@ -1,9 +1,11 @@
 <template>
-  <section class="row flex-grow-1">
-    <div class="col-12 col-md-6 p-4">
+  <section class="row flex-grow-1 w-100 h-100">
+    <div class="col-12 col-md-6 p-md-4 p-0 mb-md-0 mb-4">
       <user-form-container></user-form-container>
     </div>
-    <div class="col-12 col-md-6 p-4 d-flex flex-column justify-content-center">
+    <div
+      class="col-12 col-md-6 p-md-4 p-0 d-flex flex-column justify-content-center"
+    >
       <signature-preview-container></signature-preview-container>
     </div>
   </section>

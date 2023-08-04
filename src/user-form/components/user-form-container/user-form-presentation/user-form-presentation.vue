@@ -2,7 +2,7 @@
   <div class="card rounded-4 mx-0 mx-lg-5">
     <!-- start: card title -->
     <div class="card-title rounded-top-4 mb-0 text-white p-3 bg-primary">
-      <h5 class="fw-normal">Create your signature</h5>
+      <h4>Create your signature</h4>
     </div>
     <!-- end: card-title -->
     <!-- start: card-body -->
@@ -10,7 +10,7 @@
       <!-- start: user form -->
       <form class="user-form">
         <div class="mb-3">
-          <label class="mb-1" for="firstname"
+          <label class="mb-1 fw-semibold" for="firstname"
             >Firstname<span class="text-danger fw-bold">*</span></label
           >
           <Field
@@ -22,7 +22,7 @@
           <span class="text-danger">{{ errors.firstname }}</span>
         </div>
         <div class="mb-3">
-          <label class="mb-1" for="lastname"
+          <label class="mb-1 fw-semibold" for="lastname"
             >Lastname<span class="text-danger fw-bold">*</span></label
           >
           <Field
@@ -34,20 +34,20 @@
           <span class="text-danger">{{ errors.lastname }}</span>
         </div>
         <div class="mb-3">
-          <label class="mb-1" for="emailid"
+          <label class="mb-1 fw-semibold" for="emailid"
             >Email ID<span class="text-danger fw-bold">*</span></label
           >
           <Field
             type="text"
             class="form-control"
             name="emailid"
-            placeholder="@1rivet.com"
+            placeholder="example@1rivet.com"
             v-model="emailid"
           />
           <span class="text-danger">{{ errors.emailid }}</span>
         </div>
         <div class="mb-3">
-          <label class="mb-1" for="designation"
+          <label class="mb-1 fw-semibold" for="designation"
             >Designation<span class="text-danger fw-bold">*</span></label
           >
           <Field
@@ -59,7 +59,7 @@
           <span class="text-danger">{{ errors.designation }}</span>
         </div>
         <div class="mb-3">
-          <label class="mb-1" for="department"
+          <label class="mb-1 fw-semibold" for="department"
             >Select Department<span class="text-danger fw-bold">*</span></label
           >
           <Field
@@ -81,7 +81,7 @@
           <span class="text-danger">{{ errors.department }}</span>
         </div>
         <div class="mb-3">
-          <label class="mb-1" for="contactNumber"
+          <label class="mb-1 fw-semibold" for="contactNumber"
             >Contact Number<span class="text-danger fw-bold">*</span></label
           >
           <Field
@@ -93,7 +93,7 @@
           <span class="text-danger">{{ errors.contactNumber }}</span>
         </div>
         <div class="mb-3">
-          <label class="mb-1" for="name">Github Link</label>
+          <label class="mb-1 fw-semibold" for="name">Github Link</label>
           <Field
             type="text"
             class="form-control"
@@ -103,7 +103,7 @@
           <span class="text-danger">{{ errors.githubLink }}</span>
         </div>
         <div class="mb-3">
-          <label class="mb-1" for="name">LinkedIn Link</label>
+          <label class="mb-1 fw-semibold" for="name">LinkedIn Link</label>
           <Field
             type="text"
             class="form-control"
@@ -232,6 +232,7 @@ const { errors, meta } = useForm({
 
 const gitField = useField("githubLink");
 const linkedinField = useField("linkedinLink");
+
 watch(gitField.meta, (value) => {
   if (value.valid && (!value.touched || value.dirty)) {
     emitter.emit("github", true);

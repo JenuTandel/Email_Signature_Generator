@@ -13,47 +13,41 @@
           <tbody>
             <tr>
               <td
-                rowSpan="6"
-                ref="logoimagewrapper"
+                rowSpan="4"
                 style="
-                  border-right: 1px solid #d9d9d9;
+                  border-right: 2px solid #d9d9d9;
                   border-left: none;
                   border-top: none;
                   border-bottom: none;
                   margin-right: 5px;
                 "
-              ></td>
+              >
+                <a href="https://www.1rivet.com" ref="logoimagewrapper"> </a>
+              </td>
               <td
+                class="w-100"
                 style="
-                  font-size: 13pt;
+                  font-size: 11pt;
                   font-weight: 500;
                   border: none;
                   margin-left: 10px;
-                  padding: 5px 0px;
                 "
               >
+                <!-- padding: 5px 0px; -->
                 <p
                   v-if="!user?.firstname"
                   class="name-skeleton bg-secondary ms-2"
                 ></p>
                 <span v-else class="ms-2">
                   {{ user.firstname }} {{ user.lastname }}
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td style="font-size: 11pt; border: none; margin-left: 10px">
-                <p
-                  v-if="!user?.designation"
-                  class="designation-skeleton bg-secondary ms-2"
-                ></p>
-                <span class="ms-2" v-else
-                  >{{ user.designation }} | {{ user.department }}
+                  <span v-if="user.designation">| {{ user.designation }} </span>
+                  <span v-if="user.department"> ({{ user.department }})</span>
                 </span>
               </td>
             </tr>
             <tr>
               <td
+                class="w-100"
                 style="
                   font-size: 10pt;
                   border: none;
@@ -63,7 +57,7 @@
               >
                 <p
                   v-if="!user?.emailid"
-                  class="email-contact-skeleton bg-secondary ms-2"
+                  class="email-skeleton bg-secondary ms-2"
                 ></p>
                 <span class="ms-2" v-else>
                   <span style="color: red">e. </span>
@@ -73,12 +67,17 @@
             </tr>
             <tr>
               <td
-                style="font-size: 10pt; border: none; margin-left: 10px"
-                class="pb-1"
+                class="w-100 pb-1"
+                style="
+                  font-size: 10pt;
+                  border: none;
+                  margin-left: 10px;
+                  padding-bottom: 5px;
+                "
               >
                 <p
                   v-if="!user?.contactNumber"
-                  class="email-contact-skeleton bg-secondary ms-2"
+                  class="contact-skeleton bg-secondary ms-2"
                 ></p>
                 <span class="ms-2" v-if="user?.contactNumber">
                   <span style="color: red">tel.</span>
@@ -87,27 +86,7 @@
               </td>
             </tr>
             <tr>
-              <td
-                style="
-                  font-size: 10pt;
-                  border: none;
-                  margin-left: 10px;
-                  height: 20px;
-                  text-decoration: none;
-                "
-              >
-                <span style="color: red" class="ms-2">web. </span>
-                <a
-                  href="https://www.1rivet.com"
-                  style="text-decoration: none"
-                  ref="githublink"
-                >
-                  <span>www.1rivet.com</span>
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <td style="border: none; margin-left: 10px">
+              <td class="w-100" style="border: none; margin-left: 10px">
                 <a
                   :href="user?.githubLink"
                   style="text-decoration: none"
@@ -126,12 +105,8 @@
         </table>
         <!-- end: table (For represent formdata) -->
       </div>
-      <div class="mt-3 text-center">
-        <button
-          class="btn btn-primary px-4"
-          :disabled="errors"
-          @click="onCopySignature()"
-        >
+      <div class="mt-3 text-center" v-if="!errors">
+        <button class="btn btn-primary px-4" @click="onCopySignature()">
           <span class="text-white">Copy Signature</span>
         </button>
       </div>
