@@ -33,13 +33,12 @@
                   margin-left: 10px;
                 "
               >
-                <!-- padding: 5px 0px; -->
                 <p
-                  v-if="!user?.firstname"
+                  v-if="!user?.name"
                   class="name-skeleton bg-secondary ms-2"
                 ></p>
                 <span v-else class="ms-2">
-                  {{ user.firstname }} {{ user.lastname }}
+                  {{ user.name }}
                   <span v-if="user.designation">| {{ user.designation }} </span>
                   <span v-if="user.department"> ({{ user.department }})</span>
                 </span>
@@ -59,10 +58,15 @@
                   v-if="!user?.emailid"
                   class="email-skeleton bg-secondary ms-2"
                 ></p>
-                <span class="ms-2" v-else>
+                <div class="ms-2" v-else>
                   <span style="color: red">e. </span>
-                  {{ user.emailid }}
-                </span>
+                  <a
+                    class="text-decoration-none"
+                    :href="'mailto:' + user.emailid"
+                  >
+                    {{ user.emailid }}
+                  </a>
+                </div>
               </td>
             </tr>
             <tr>
@@ -79,10 +83,15 @@
                   v-if="!user?.contactNumber"
                   class="contact-skeleton bg-secondary ms-2"
                 ></p>
-                <span class="ms-2" v-if="user?.contactNumber">
-                  <span style="color: red">tel.</span>
-                  {{ user.contactNumber }}</span
-                >
+                <div class="ms-2" v-else>
+                  <span style="color: red">tel. </span>
+                  <a
+                    class="text-decoration-none"
+                    :href="'tel:' + user?.contactNumber"
+                  >
+                    {{ user.contactNumber }}</a
+                  >
+                </div>
               </td>
             </tr>
             <tr>
@@ -119,6 +128,7 @@
 import { onMounted, ref, watch } from "vue";
 import emitter from "@/emitter/emitter.mitt";
 import copyToClipboard from "@/hooks/copy-to-clipboard";
+import { User } from "@/user-form/model/user.model";
 const signaturediv = ref(null);
 const logoimagewrapper = ref();
 const linkedinlink = ref();

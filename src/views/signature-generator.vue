@@ -1,5 +1,5 @@
 <template>
-  <section class="row flex-grow-1 w-100 h-100">
+  <section class="row align-items-center flex-grow-1 w-100 h-100">
     <div class="col-12 col-md-6 p-md-4 p-0 mb-md-0 mb-4">
       <user-form-container></user-form-container>
     </div>

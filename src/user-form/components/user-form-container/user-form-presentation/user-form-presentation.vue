@@ -10,28 +10,11 @@
       <!-- start: user form -->
       <form class="user-form">
         <div class="mb-3">
-          <label class="mb-1 fw-semibold" for="firstname"
-            >Firstname<span class="text-danger fw-bold">*</span></label
+          <label class="mb-1 fw-semibold" for="name"
+            >Name<span class="text-danger fw-bold">*</span></label
           >
-          <Field
-            type="text"
-            class="form-control"
-            name="firstname"
-            v-model="firstname"
-          />
-          <span class="text-danger">{{ errors.firstname }}</span>
-        </div>
-        <div class="mb-3">
-          <label class="mb-1 fw-semibold" for="lastname"
-            >Lastname<span class="text-danger fw-bold">*</span></label
-          >
-          <Field
-            type="text"
-            class="form-control"
-            name="lastname"
-            v-model="lastname"
-          />
-          <span class="text-danger">{{ errors.lastname }}</span>
+          <Field type="text" class="form-control" name="name" v-model="name" />
+          <span class="text-danger">{{ errors.name }}</span>
         </div>
         <div class="mb-3">
           <label class="mb-1 fw-semibold" for="emailid"
@@ -141,14 +124,10 @@ const departments = [
 ];
 
 const schema = yup.object({
-  firstname: yup
+  name: yup
     .string()
     .required()
-    .matches(/^[a-zA-Z]+$/, "It contains alphabets only"),
-  lastname: yup
-    .string()
-    .required()
-    .matches(/^[a-zA-Z]+$/, "It contains alphabets only"),
+    .matches(/^[a-zA-Z ]+$/, "It contains alphabets only"),
   emailid: yup
     .string()
     .required()
@@ -195,8 +174,7 @@ const schema = yup.object({
       message: "Enter your valid linkedIn link",
     }),
 });
-const firstname = ref();
-const lastname = ref();
+const name = ref();
 const emailid = ref();
 const designation = ref();
 const department = ref();
@@ -205,8 +183,7 @@ const githubLink = ref();
 const linkedinLink = ref();
 
 const user = reactive({
-  firstname,
-  lastname,
+  name,
   emailid,
   designation,
   department,
@@ -216,8 +193,7 @@ const user = reactive({
 });
 const formInit = reactive({ data: {} });
 formInit.data = {
-  firstname: "",
-  lastname: "",
+  name: "",
   emailid: "",
   designation: "",
   department: "",
