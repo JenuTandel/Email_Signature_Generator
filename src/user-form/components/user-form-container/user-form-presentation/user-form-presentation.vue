@@ -31,14 +31,25 @@
         </div>
         <div class="mb-3">
           <label class="mb-1 fw-semibold" for="designation"
-            >Designation<span class="text-danger fw-bold">*</span></label
+            >Select Designation
+            <span class="text-danger fw-bold">*</span></label
           >
           <Field
-            type="text"
-            class="form-control"
+            as="select"
+            id="designation"
+            class="form-select"
             name="designation"
             v-model="designation"
-          />
+          >
+            <option value="" disabled selected>Select</option>
+            <option
+              v-for="option in designations"
+              :key="option.value"
+              :value="option.value"
+            >
+              {{ option.label }}
+            </option>
+          </Field>
           <span class="text-danger">{{ errors.designation }}</span>
         </div>
         <div class="mb-3">
@@ -71,6 +82,7 @@
             type="text"
             class="form-control"
             name="contactNumber"
+            maxlength="10"
             v-model="contactNumber"
           />
           <span class="text-danger">{{ errors.contactNumber }}</span>
@@ -123,6 +135,17 @@ const departments = [
   { label: "Mobile App", value: "Mobile App" },
 ];
 
+const designations = [
+  { label: "Associate Trainee", value: "Associate Trainee" },
+  { label: "Associate L1", value: "Associate L1" },
+  { label: "Sr. Associate L1", value: "Sr. Associate L1" },
+  { label: "Associate L2", value: "Associate L2" },
+  { label: "Sr. Associate L2", value: "Sr. Associate L2" },
+  { label: "Manager", value: "Manager" },
+  { label: "Sr. Manager", value: "Sr. Manager" },
+  { label: "Director", value: "Director" },
+];
+
 const schema = yup.object({
   name: yup
     .string()
@@ -131,21 +154,20 @@ const schema = yup.object({
   emailid: yup
     .string()
     .required()
-    .matches(/^[a-zA-Z]+.[a-zA-Z]+@1rivet.com+$/, "Enter correct mail id"),
+    .matches(/^[a-zA-Z.]+@1rivet.com+$/, "Enter correct mail id"),
   designation: yup
     .string()
-    .required()
-    .matches(
-      /^[a-zA-Z0-9 .]+$/,
-      "It contains alphanumeric value, space and . character"
-    ),
+    .required("Please select your designation from the dropdown"),
   department: yup
     .string()
     .required("Please select your department from the dropdown"),
   contactNumber: yup
     .string()
     .required()
-    .matches(/^[0-9]{10}$/, "Enter correct contact number"),
+    .matches(
+      /^[0-9]{10}$/,
+      "It contains 10 digits only, exclude your county code and '0'"
+    ),
   githubLink: yup
     .string()
     .nullable()

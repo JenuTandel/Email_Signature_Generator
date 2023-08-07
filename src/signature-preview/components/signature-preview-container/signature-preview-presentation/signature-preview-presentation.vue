@@ -39,7 +39,12 @@
                   "
                 >
                   <p
-                    v-if="!user?.name"
+                    v-if="
+                      !(
+                        user &&
+                        (user.name || user.designation || user.department)
+                      )
+                    "
                     class="name-skeleton bg-secondary ms-2"
                   ></p>
                   <span v-else class="ms-2">
