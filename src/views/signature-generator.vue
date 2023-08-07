@@ -4,7 +4,7 @@
       <user-form-container></user-form-container>
     </div>
     <div
-      class="col-12 col-md-6 p-md-4 p-0 d-flex flex-column justify-content-center"
+      class="col-12 col-md-6 p-md-4 p-0 h-100 d-flex flex-column justify-content-center"
     >
       <signature-preview-container></signature-preview-container>
     </div>

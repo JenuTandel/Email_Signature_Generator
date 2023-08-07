@@ -1,126 +1,135 @@
 <template>
-  <div class="card rounded-4 mx-0 mx-lg-5">
-    <!-- start: card title -->
-    <div class="card-title rounded-top-4 mb-0 text-white p-3 bg-primary">
-      <h5 class="fw-normal">Signature Preview</h5>
-    </div>
-    <!-- end: card-title -->
-    <!-- start: card-body -->
-    <div class="card-body">
-      <div ref="signaturediv">
-        <!-- start: table (For represent formdata) -->
-        <table class="border-none border-collapse">
-          <tbody>
-            <tr>
-              <td
-                rowSpan="4"
-                style="
-                  border-right: 2px solid #d9d9d9;
-                  border-left: none;
-                  border-top: none;
-                  border-bottom: none;
-                  margin-right: 5px;
-                "
-              >
-                <a href="https://www.1rivet.com" ref="logoimagewrapper"> </a>
-              </td>
-              <td
-                class="w-100"
-                style="
-                  font-size: 11pt;
-                  font-weight: 500;
-                  border: none;
-                  margin-left: 10px;
-                "
-              >
-                <p
-                  v-if="!user?.name"
-                  class="name-skeleton bg-secondary ms-2"
-                ></p>
-                <span v-else class="ms-2">
-                  {{ user.name }}
-                  <span v-if="user.designation">| {{ user.designation }} </span>
-                  <span v-if="user.department"> ({{ user.department }})</span>
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td
-                class="w-100"
-                style="
-                  font-size: 10pt;
-                  border: none;
-                  margin-left: 10px;
-                  padding: 5px 0px;
-                "
-              >
-                <p
-                  v-if="!user?.emailid"
-                  class="email-skeleton bg-secondary ms-2"
-                ></p>
-                <div class="ms-2" v-else>
-                  <span style="color: red">e. </span>
+  <div class="d-flex flex-column flex-grow-1 justify-content-evenly">
+    <div class="card rounded-4 mx-0 mx-lg-5">
+      <!-- start: card title -->
+      <div class="card-title rounded-top-4 mb-0 text-white p-3 bg-primary">
+        <h5 class="fw-normal">Signature Preview</h5>
+      </div>
+      <!-- end: card-title -->
+      <!-- start: card-body -->
+      <div class="card-body">
+        <div ref="signaturediv">
+          <!-- start: table (For represent formdata) -->
+          <table class="border-none border-collapse">
+            <tbody>
+              <tr>
+                <td
+                  rowSpan="4"
+                  style="
+                    border-right: 2px solid #d9d9d9;
+                    border-left: none;
+                    border-top: none;
+                    border-bottom: none;
+                    margin-right: 5px;
+                  "
+                >
+                  <a href="https://www.1rivet.com" ref="logoimagewrapper"> </a>
+                </td>
+                <td
+                  class="w-100"
+                  style="
+                    font-size: 11pt;
+                    font-weight: 500;
+                    border: none;
+                    margin-left: 10px;
+                  "
+                >
+                  <p
+                    v-if="!user?.name"
+                    class="name-skeleton bg-secondary ms-2"
+                  ></p>
+                  <span v-else class="ms-2">
+                    {{ user.name }}
+                    <span v-if="user.designation"
+                      >| {{ user.designation }}
+                    </span>
+                    <span v-if="user.department"> ({{ user.department }})</span>
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td
+                  class="w-100"
+                  style="
+                    font-size: 10pt;
+                    border: none;
+                    margin-left: 10px;
+                    padding: 5px 0px;
+                  "
+                >
+                  <p
+                    v-if="!user?.emailid"
+                    class="email-skeleton bg-secondary ms-2"
+                  ></p>
+                  <div class="ms-2" v-else>
+                    <span style="color: red">e. </span>
+                    <a
+                      class="text-decoration-none"
+                      :href="'mailto:' + user.emailid"
+                    >
+                      {{ user.emailid }}
+                    </a>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td
+                  class="w-100 pb-1"
+                  style="
+                    font-size: 10pt;
+                    border: none;
+                    margin-left: 10px;
+                    padding-bottom: 5px;
+                  "
+                >
+                  <p
+                    v-if="!user?.contactNumber"
+                    class="contact-skeleton bg-secondary ms-2"
+                  ></p>
+                  <div class="ms-2" v-else>
+                    <span style="color: red">tel. </span>
+                    <a
+                      class="text-decoration-none"
+                      :href="'tel:' + user?.contactNumber"
+                    >
+                      {{ user.contactNumber }}</a
+                    >
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="w-100" style="border: none; margin-left: 10px">
                   <a
-                    class="text-decoration-none"
-                    :href="'mailto:' + user.emailid"
+                    :href="user?.githubLink"
+                    style="text-decoration: none"
+                    ref="githublink"
                   >
-                    {{ user.emailid }}
                   </a>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td
-                class="w-100 pb-1"
-                style="
-                  font-size: 10pt;
-                  border: none;
-                  margin-left: 10px;
-                  padding-bottom: 5px;
-                "
-              >
-                <p
-                  v-if="!user?.contactNumber"
-                  class="contact-skeleton bg-secondary ms-2"
-                ></p>
-                <div class="ms-2" v-else>
-                  <span style="color: red">tel. </span>
                   <a
-                    class="text-decoration-none"
-                    :href="'tel:' + user?.contactNumber"
+                    :href="user?.linkedinLink"
+                    style="text-decoration: none"
+                    ref="linkedinlink"
                   >
-                    {{ user.contactNumber }}</a
-                  >
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td class="w-100" style="border: none; margin-left: 10px">
-                <a
-                  :href="user?.githubLink"
-                  style="text-decoration: none"
-                  ref="githublink"
-                >
-                </a>
-                <a
-                  :href="user?.linkedinLink"
-                  style="text-decoration: none"
-                  ref="linkedinlink"
-                >
-                </a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <!-- end: table (For represent formdata) -->
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- end: table (For represent formdata) -->
+        </div>
+        <div class="mt-3 text-center" v-if="!errors">
+          <button class="btn btn-primary px-4" @click="onCopySignature()">
+            <span class="text-white">Copy Signature</span>
+          </button>
+        </div>
       </div>
-      <div class="mt-3 text-center" v-if="!errors">
-        <button class="btn btn-primary px-4" @click="onCopySignature()">
-          <span class="text-white">Copy Signature</span>
-        </button>
-      </div>
+      <!-- end: card-body -->
     </div>
-    <!-- end: card-body -->
+    <!-- start: steps guide -->
+
+    <StepsGuide></StepsGuide>
+
+    <!-- end: steps guide -->
   </div>
 </template>
 
@@ -128,6 +137,7 @@
 import { onMounted, ref, watch } from "vue";
 import emitter from "@/emitter/emitter.mitt";
 import copyToClipboard from "@/hooks/copy-to-clipboard";
+import StepsGuide from "../../../../components/steps-guide.vue";
 import { User } from "@/user-form/model/user.model";
 const signaturediv = ref(null);
 const logoimagewrapper = ref();
