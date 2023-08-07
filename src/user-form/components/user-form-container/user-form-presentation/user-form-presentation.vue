@@ -31,8 +31,7 @@
         </div>
         <div class="mb-3">
           <label class="mb-1 fw-semibold" for="designation"
-            >Select Designation
-            <span class="text-danger fw-bold">*</span></label
+            >Select Designation<span class="text-danger fw-bold">*</span></label
           >
           <Field
             as="select"
