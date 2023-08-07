@@ -11,7 +11,7 @@
     >
       <signature-generator></signature-generator>
     </main>
-    <footer>
+    <!-- <footer>
       <div class="bg-secondary text-center w-100 p-2">
         <p>
           Copyright © 2023, 1Rivet |
@@ -22,7 +22,7 @@
           >
         </p>
       </div>
-    </footer>
+    </footer> -->
   </section>
 </template>
 
