@@ -1,6 +1,6 @@
 <template>
   <section>
-    <card class="card mx-lg-5">
+    <div class="card rounded-4 mx-lg-5">
       <div class="card-title rounded-top-4 mb-0 text-white p-3 bg-primary">
         <h5 class="fw-normal">
           How to apply this email signature in your Outlook?
@@ -25,7 +25,7 @@
           created signature name.
         </p>
       </div>
-    </card>
+    </div>
   </section>
 </template>
 

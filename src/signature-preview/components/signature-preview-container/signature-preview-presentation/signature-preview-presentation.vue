@@ -4,7 +4,7 @@
       :message="toasterMessage"
       v-if="showToaster"
     ></ToasterMessage>
-    <div class="card rounded-4 mx-0 mx-lg-5">
+    <div class="card rounded-4 mx-0 mx-lg-5 mb-4 mb-lg-0" ref="signature">
       <!-- start: card title -->
       <div class="card-title rounded-top-4 mb-0 text-white p-3 bg-primary">
         <h5 class="fw-normal">Signature Preview</h5>
@@ -122,8 +122,13 @@
           <!-- end: table (For represent formdata) -->
         </div>
         <div class="mt-3 text-center" v-if="!errors">
-          <button class="btn btn-primary px-4" @click="onCopySignature()">
-            <span class="text-white">Copy Signature</span>
+          <button
+            class="btn px-4"
+            :class="signatureCopied ? 'btn-success' : 'btn-primary'"
+            type="button"
+            @click="onCopySignature()"
+          >
+            <span class="text-white">{{ copyButtonName }}</span>
           </button>
         </div>
       </div>
@@ -150,6 +155,9 @@ const user = ref();
 const errors = ref(true);
 const githubIconVisibility = ref();
 const linkedinIconVisibility = ref();
+const signature = ref();
+const signatureCopied = ref(false);
+const copyButtonName = ref("Copy Signature");
 
 const linkedinIcon = new Image();
 linkedinIcon.src = require("../../../../assets/images/linkedin.png");
@@ -318,13 +326,23 @@ const ShowToaster = () => {
     showToaster.value = false;
   }, 3000);
 };
+
 //Copy signature button
 const onCopySignature = () => {
+  signature.value.classList?.remove("user-no-select");
   const signatureContainer = signaturediv.value;
   removeTableBorders(signatureContainer);
 
   //call hook copyToClipboard
   copyToClipboard(signatureContainer);
-  ShowToaster();
+
+  //add dynamic class to copy button
+  signatureCopied.value = true;
+  copyButtonName.value = "Copied ✔";
+  setTimeout(() => {
+    signatureCopied.value = false;
+    copyButtonName.value = "Copy Signature";
+  }, 1000);
+  signature.value.classList.add("user-no-select");
 };
 </script>
